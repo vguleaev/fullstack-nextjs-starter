@@ -25,8 +25,9 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
 
     const response = await signIn('credentials', {
       redirect: false,
-      email: e.currentTarget.email.value,
-      password: e.currentTarget.password.value,
+      csrfToken: e.target.csrfToken.value,
+      email: e.target.email.value,
+      password: e.target.password.value,
     });
 
     if (response?.ok) {

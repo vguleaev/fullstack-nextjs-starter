@@ -17,9 +17,9 @@ export default function SignUp() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name: e.currentTarget.email.name,
-        email: e.currentTarget.email.value,
-        password: e.currentTarget.password.value,
+        name: e.target.email.name,
+        email: e.target.email.value,
+        password: e.target.password.value,
       }),
     });
     setIsLoading(false);

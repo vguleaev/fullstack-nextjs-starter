@@ -159,6 +159,9 @@ model User {
 }
 ```
 
+Add prisma client:
+`yarn add -E @prisma/client`
+
 **For sqlite:** Run command to create database:
 `npx prisma migrate dev --name init`
 
@@ -169,9 +172,6 @@ DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/mydb"
 
 Run db migration:
 `npx prisma db push`
-
-Add prisma client:
-`yarn add -E @prisma/client`
 
 Create db client:
 
@@ -326,8 +326,126 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 ```
 
-- Add protected page
+Wrap whole app with SessionProvider:
 
+```typescript
+//_app.tsx
+import { SessionProvider } from 'next-auth/react';
+
+export default function App({ Component, pageProps }: AppProps) {
+  const session = pageProps.session;
+
+  return (
+    <SessionProvider session={session}>
+      <Component {...pageProps} />
+    </SessionProvider>
+  );
+}
+
+```
+
+Add component to login and read user from session:
+
+```typescript
+// components/auth.tsx
+import { useSession, signOut, signIn, getCsrfToken } from 'next-auth/react';
+import { useRouter } from 'next/router';
+
+function Auth() {
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    const csrfToken = await getCsrfToken();
+
+    const response = await signIn('credentials', {
+      redirect: false,
+      email: e.target.email.value,
+      password: e.target.password.value,
+      csrfToken,
+    });
+
+    if (response?.ok) {
+      alert(`Successfully logged in!`);
+      await router.push('/protected');
+    } else {
+      alert(response?.error);
+    }
+  };
+
+  if (session && session.user) {
+    return (
+      <div>
+        <h1 className="mb-2">Signed in as {session.user.email}</h1>
+        <button className="btn" onClick={() => signOut()}>
+          Sign out
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <form onSubmit={onSubmit}>
+        <input
+          placeholder="Email"
+          className="input input-bordered w-full max-w-xs mb-4"
+          name="email"
+          type="email"
+          required
+        />
+        <input
+          placeholder="Password"
+          className="input input-bordered w-full max-w-xs mb-4"
+          name="password"
+          type="password"
+          required
+        />
+        <div className="flex flex-row gap-3 justify-center mb-4">
+          <button className="btn btn-primary w-full max-w-xs" type="submit">
+            Sign in with email
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+export default Auth;
+```
+
+Note: *You need to create user from register endpoint to be able to login!*
+
+Add next auth secret to enviroment variables:
+
+```
+// .env
+NEXTAUTH_SECRET="123456789"
+```
+
+For protected route create middleware:
+
+```typescript
+// src/middleware.ts
+import { getToken } from 'next-auth/jwt';
+import { NextRequest, NextResponse } from 'next/server';
+
+export default async function middleware(req: NextRequest) {
+  const path = req.nextUrl.pathname;
+
+  if (path === '/') {
+    return NextResponse.next();
+  }
+
+  const session = await getToken({ req });
+  if (!session && path === '/protected') {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
+  return NextResponse.next();
+}
+```
 
 ##### Add Font
 
@@ -338,7 +456,7 @@ Add self hosted default font:
 Apply font as class for application wrapper:
 
 ```typescript
-// pages/_aoo.tsx
+// pages/_app.tsx
 import { Inter } from '@next/font/google';
 
 const inter = Inter({ subsets: ['latin', 'cyrillic'], weight: ['400', '700'] });
