@@ -165,6 +165,11 @@ Add prisma client:
 **For sqlite:** Run command to create database:
 `npx prisma migrate dev --name init`
 
+Create .env file with connection string:
+```
+DATABASE_URL="file:./dev.db"
+```
+
 **For mysql:** Create .env file with connection string:
 ```
 DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/mydb"
@@ -449,15 +454,11 @@ export default async function middleware(req: NextRequest) {
 
 ##### Add Font
 
-Add self hosted default font:
-
-`yarn add -E @next/font`
-
-Apply font as class for application wrapper:
+Apply self hosted font as class for application wrapper:
 
 ```typescript
 // pages/_app.tsx
-import { Inter } from '@next/font/google';
+import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin', 'cyrillic'], weight: ['400', '700'] });
 //...

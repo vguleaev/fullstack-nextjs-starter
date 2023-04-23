@@ -9,7 +9,6 @@ export default async function middleware(req: NextRequest) {
   }
 
   const session = await getToken({ req });
-  console.log(session);
   if (!session && path === '/protected') {
     return NextResponse.redirect(new URL('/auth/signin', req.url));
   } else if (session && (path === '/auth/signin' || path === '/auth/signup')) {
