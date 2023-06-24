@@ -4,6 +4,10 @@ import { NextRequest, NextResponse } from 'next/server';
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
 
+  if (path.startsWith('/api/auth')) {
+    return NextResponse.next();
+  }
+
   if (path === '/') {
     return NextResponse.next();
   }
@@ -16,3 +20,16 @@ export default async function middleware(req: NextRequest) {
   }
   return NextResponse.next();
 }
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ],
+};
