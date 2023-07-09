@@ -17,7 +17,7 @@ export default function SignUp() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name: e.target.email.name,
+        name: e.target.name.name,
         email: e.target.email.value,
         password: e.target.password.value,
       }),
@@ -27,7 +27,7 @@ export default function SignUp() {
       toast.success('Account created! Redirecting to login...');
       setTimeout(() => {
         router.push('/auth/signin');
-      }, 2000);
+      }, 1500);
     } else {
       toast.error(await res.text());
     }

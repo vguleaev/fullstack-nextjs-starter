@@ -1,4 +1,5 @@
 ## Next.js project starter
+
 - Typescript
 - eslint
 - SASS
@@ -10,10 +11,11 @@
 - TRPC
 
 ### Generate Next app with command:
+
 `npx create-next-app@latest --typescript`
 
 Add SASS support with command:
-`yarn add -E sass`
+`yarn add -D sass`
 
 Add eslint recommended rules with command:
 `yarn add -D @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-react`
@@ -23,14 +25,8 @@ Modify eslintrc.json:
 ```json
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint"
-  ],
-  "extends": [
-    "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended"
-  ],
+  "plugins": ["@typescript-eslint"],
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "plugin:react/recommended"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/self-closing-comp": [
@@ -45,6 +41,7 @@ Modify eslintrc.json:
 ```
 
 ### Add DaisyUI + Tailwind
+
 `yarn add -E tailwindcss @tailwindcss/typography postcss autoprefixer daisyui`
 
 Create postcss.config.js:
@@ -53,7 +50,6 @@ Create postcss.config.js:
 module.exports = {
   plugins: ['tailwindcss', 'autoprefixer'],
 };
-
 ```
 
 Create tailwind.config.js:
@@ -63,10 +59,10 @@ module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   plugins: [require('@tailwindcss/typography'), require('daisyui')],
 };
-
 ```
 
 Add to globals.css:
+
 ```css
 @tailwind base;
 @tailwind components;
@@ -111,8 +107,12 @@ function Counter() {
   return (
     <div className="Counter">
       <h1>count: {counter}</h1>
-      <button className="btn" onClick={increase}>increase</button>
-      <button className="btn" onClick={reset}>reset</button>
+      <button className="btn" onClick={increase}>
+        increase
+      </button>
+      <button className="btn" onClick={reset}>
+        reset
+      </button>
     </div>
   );
 }
@@ -123,8 +123,8 @@ export default Counter;
 To initialize a store with data from SSR:
 
 ```typescript
- // in page call setState with data from getServerSideProps
- useCounterStore.setState({ counter: props.data.id });
+// in page call setState with data from getServerSideProps
+useCounterStore.setState({ counter: props.data.id });
 ```
 
 ### Add Prisma
@@ -132,7 +132,7 @@ To initialize a store with data from SSR:
 `yarn add -E -D prisma`
 
 `npx prisma init --datasource-provider sqlite`
-*(you can use "mysql" instead of sqlite or other database)*
+_(you can use "mysql" instead of sqlite or other database)_
 
 ```javascript
 // schema.prisma
@@ -143,7 +143,7 @@ generator client {
 datasource db {
   provider     = "sqlite" // or "mysql, etc.."
   url          = env("DATABASE_URL")
-  relationMode = "prisma" // also add this 
+  relationMode = "prisma" // also add this
 }
 ```
 
@@ -166,11 +166,13 @@ Add prisma client:
 `npx prisma migrate dev --name init`
 
 Create .env file with connection string:
+
 ```
 DATABASE_URL="file:./dev.db"
 ```
 
 **For mysql:** Create .env file with connection string:
+
 ```
 DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/mydb"
 ```
@@ -203,7 +205,7 @@ import prisma from '@/db/prisma';
 //...
 const user = await prisma.user.create({
   data: {
-    email: "some@mail.com",
+    email: 'some@mail.com',
     password: 'Password123',
   },
 });
@@ -216,6 +218,7 @@ You can use Prisma UI as db browser:
 ### Add NextAuth
 
 Install NextAuth
+
 `yarn add -E next-auth bcrypt`
 
 `yarn add -E -D @types/bcrypt`
@@ -346,7 +349,6 @@ export default function App({ Component, pageProps }: AppProps) {
     </SessionProvider>
   );
 }
-
 ```
 
 Add component to login and read user from session:
@@ -421,7 +423,7 @@ function Auth() {
 export default Auth;
 ```
 
-Note: *You need to create user from register endpoint to be able to login!*
+Note: _You need to create user from register endpoint to be able to login!_
 
 Add next auth secret to enviroment variables:
 
@@ -452,6 +454,12 @@ export default async function middleware(req: NextRequest) {
 }
 ```
 
+### Add TRPC
+
+Install trpc
+
+`yarn add -E @trpc/server @trpc/client @trpc/next @trpc/react-query @tanstack/react-query zod`
+
 ##### Add Font
 
 Apply self hosted font as class for application wrapper:
@@ -462,14 +470,15 @@ import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin', 'cyrillic'], weight: ['400', '700'] });
 //...
-  return (
-    <main className={inter.className}>
-      <Component {...pageProps} />
-    </main>
-  );
+return (
+  <main className={inter.className}>
+    <Component {...pageProps} />
+  </main>
+);
 ```
 
 ##### Configure vscode settings .vscode/settings.json:
+
 ```json
 {
   "editor.codeActionsOnSave": {
@@ -481,6 +490,6 @@ const inter = Inter({ subsets: ['latin', 'cyrillic'], weight: ['400', '700'] });
 
 ##### Resources
 
-- Free vector illustrations: 
-https://popsy.co/illustrations
-https://undraw.co/illustrations
+- Free vector illustrations:
+  https://popsy.co/illustrations
+  https://undraw.co/illustrations
