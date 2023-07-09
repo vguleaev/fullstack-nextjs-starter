@@ -6,6 +6,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Input } from 'react-daisyui';
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
@@ -48,15 +49,15 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
         <div className="mb-4 text-center">
           <h1 className="text-2xl tracking-tight mb-5">Welcome back</h1>
           <form onSubmit={onSubmit}>
-            <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-            <input
+            <Input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+            <Input
               placeholder="Email"
               className="input input-bordered w-full max-w-xs mb-4"
               name="email"
               type="email"
               required
             />
-            <input
+            <Input
               placeholder="Password"
               className="input input-bordered w-full max-w-xs mb-4"
               name="password"
@@ -64,10 +65,8 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
               required
             />
             <div className="flex flex-row gap-3 justify-center mb-4">
-              <button
-                className={`btn btn-primary w-full max-w-xs ${isLoading ? 'loading' : ''}`}
-                type="submit"
-                disabled={isLoading}>
+              <button className={`btn btn-primary w-full max-w-xs`} type="submit" disabled={isLoading}>
+                <span className={isLoading ? 'loading loading-spinner' : ''} />
                 Sign in with email
               </button>
             </div>

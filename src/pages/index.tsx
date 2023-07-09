@@ -4,7 +4,6 @@ import styles from '@/styles/Home.module.scss';
 import Counter from '@/components/counter';
 import { useCounterStore } from '@/stores/counterStore';
 import { GetServerSideProps } from 'next';
-import { FC } from 'react';
 import AuthForm from '@/components/auth-form';
 
 type ComponentProps = {
@@ -23,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   return { props: { data } };
 };
 
-const Home: FC<ComponentProps> = ({ data }) => {
+export default function Home({ data }: ComponentProps) {
   useCounterStore.setState({ counter: data.id });
 
   return (
@@ -58,6 +57,4 @@ const Home: FC<ComponentProps> = ({ data }) => {
       </div>
     </>
   );
-};
-
-export default Home;
+}

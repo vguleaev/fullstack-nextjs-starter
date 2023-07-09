@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
+import { Input } from 'react-daisyui';
 
 export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
@@ -42,21 +43,21 @@ export default function SignUp() {
         <div className="mb-4 text-center">
           <h1 className="text-2xl tracking-tight mb-5">Create an account</h1>
           <form onSubmit={onSubmit}>
-            <input
+            <Input
               placeholder="Name"
               className="input input-bordered w-full max-w-xs mb-4"
               name="name"
               type="text"
               required
             />
-            <input
+            <Input
               placeholder="Email"
               className="input input-bordered w-full max-w-xs mb-4"
               name="email"
               type="email"
               required
             />
-            <input
+            <Input
               placeholder="Password"
               className="input input-bordered w-full max-w-xs mb-4"
               name="password"
@@ -64,10 +65,8 @@ export default function SignUp() {
               required
             />
             <div className="flex flex-row gap-3 justify-center mb-2">
-              <button
-                className={`btn btn-primary w-full max-w-xs ${isLoading ? 'loading' : ''}`}
-                type="submit"
-                disabled={isLoading}>
+              <button className={`btn btn-primary w-full max-w-xs`} type="submit" disabled={isLoading}>
+                <span className={isLoading ? 'loading loading-spinner' : ''} />
                 Sign up with email
               </button>
             </div>

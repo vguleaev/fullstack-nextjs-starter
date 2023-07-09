@@ -42,7 +42,7 @@ Modify eslintrc.json:
 
 ### Add DaisyUI + Tailwind
 
-`yarn add -E tailwindcss @tailwindcss/typography postcss autoprefixer daisyui`
+`yarn add -E tailwindcss @tailwindcss/typography postcss autoprefixer daisyui react-daisyui`
 
 Create postcss.config.js:
 
@@ -56,7 +56,13 @@ Create tailwind.config.js:
 
 ```javascript
 module.exports = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    'node_modules/daisyui/dist/**/*.js',
+    'node_modules/react-daisyui/dist/**/*.js',
+  ],
   plugins: [require('@tailwindcss/typography'), require('daisyui')],
 };
 ```
@@ -357,6 +363,7 @@ Add component to login and read user from session:
 // components/auth.tsx
 import { useSession, signOut, signIn, getCsrfToken } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { Input } from 'react-daisyui';
 
 function Auth() {
   const { data: session } = useSession();
@@ -396,14 +403,14 @@ function Auth() {
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <input
+        <Input
           placeholder="Email"
           className="input input-bordered w-full max-w-xs mb-4"
           name="email"
           type="email"
           required
         />
-        <input
+        <Input
           placeholder="Password"
           className="input input-bordered w-full max-w-xs mb-4"
           name="password"
@@ -412,6 +419,7 @@ function Auth() {
         />
         <div className="flex flex-row gap-3 justify-center mb-4">
           <button className="btn btn-primary w-full max-w-xs" type="submit">
+            <span className={isLoading ? 'loading loading-spinner' : ''} />
             Sign in with email
           </button>
         </div>
