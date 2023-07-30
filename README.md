@@ -139,7 +139,7 @@ useCounterStore.setState({ counter: props.data.id });
 _(you can use "mysql" instead of sqlite or other database)_
 
 ```javascript
-// schema.prisma
+// ./prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -154,7 +154,7 @@ datasource db {
 Add a new model to prisma schema:
 
 ```javascript
-// schema.prisma
+// ./prisma/schema.prisma
 model User {
   id       String  @id @default(uuid())
   email    String  @unique
@@ -307,35 +307,7 @@ Add register endpoint:
 
 ```typescript
 // pages/api/auth/register.ts
-import prisma from '@/db/prisma';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { hash } from 'bcrypt';
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { name, password, email } = req.body;
-
-  if (!password || !email) {
-    res.status(400).send('Missing email or password');
-  }
-
-  const exists = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
-  if (exists) {
-    res.status(400).send('User already exists');
-  } else {
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: await hash(password, 10),
-      },
-    });
-    res.status(200).json(user);
-  }
-}
+regi;
 ```
 
 Wrap whole app with SessionProvider:
@@ -430,7 +402,7 @@ export default Auth;
 
 Note: _You need to create user from register endpoint to be able to login!_
 
-Add next auth secret to enviroment variables:
+Add next auth secret to environment variables:
 
 ```
 // .env
@@ -464,6 +436,8 @@ export default async function middleware(req: NextRequest) {
 Install trpc
 
 `yarn add -E @trpc/server @trpc/client @trpc/next @trpc/react-query @tanstack/react-query zod`
+
+IN CONSTRUCTION!!
 
 ##### Add Font
 
