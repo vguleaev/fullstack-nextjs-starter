@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 
@@ -7,9 +7,13 @@ export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     setIsLoading(true);
+
+    const target = e.target as HTMLFormElement & {
+      name: { value: string };
+    };
 
     const res = await fetch('/api/auth/register', {
       method: 'POST',
@@ -17,9 +21,9 @@ export default function SignUp() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name: e.target.name.value,
-        email: e.target.email.value,
-        password: e.target.password.value,
+        name: target.name.value,
+        email: target.email.value,
+        password: target.password.value,
       }),
     });
     setIsLoading(false);

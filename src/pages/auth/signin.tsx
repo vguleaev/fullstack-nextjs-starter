@@ -2,7 +2,7 @@ import type { GetServerSidePropsContext, InferGetServerSidePropsType } from 'nex
 import { getCsrfToken } from 'next-auth/react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -19,15 +19,17 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
+    const target = e.target as HTMLFormElement;
+
     const response = await signIn('credentials', {
       redirect: false,
-      csrfToken: e.target.csrfToken.value,
-      email: e.target.email.value,
-      password: e.target.password.value,
+      csrfToken: target.csrfToken.value,
+      email: target.email.value,
+      password: target.password.value,
     });
 
     if (response?.ok) {
