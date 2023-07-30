@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
-import { Input } from 'react-daisyui';
 
 export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +34,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center bg-gray-50 dark:bg-gray-800">
+    <div className="flex h-full w-full flex-col items-center justify-center">
       <div className="w-96 flex flex-col flex-auto justify-center items-center">
         <div className="mb-5">
           <Image src="/vercel.svg" alt="App Logo" width={180} height={37} priority />
@@ -43,21 +42,21 @@ export default function SignUp() {
         <div className="mb-4 text-center">
           <h1 className="text-2xl tracking-tight mb-5">Create an account</h1>
           <form onSubmit={onSubmit}>
-            <Input
+            <input
               placeholder="Name"
               className="input input-bordered w-full max-w-xs mb-4"
               name="name"
               type="text"
               required
             />
-            <Input
+            <input
               placeholder="Email"
               className="input input-bordered w-full max-w-xs mb-4"
               name="email"
               type="email"
               required
             />
-            <Input
+            <input
               placeholder="Password"
               className="input input-bordered w-full max-w-xs mb-4"
               name="password"
