@@ -7,7 +7,7 @@ export default function Protected() {
     <div className="flex justify-center text-center m-5">
       <div>
         <p className="mb-2">Hello {session?.user?.name}!</p>
-        <p>This is a protected route. You can access it only being logged in.</p>
+        <p>This is a protected route. You can access it only being logged in. Some test change here</p>
         <button className="btn w-36 mt-2" onClick={() => signOut()}>
           Sign out
         </button>

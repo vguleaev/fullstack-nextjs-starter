@@ -3,6 +3,8 @@ import { useCounterStore } from '@/stores/counterStore';
 export default function Counter() {
   const { counter, increase, reset } = useCounterStore();
 
+  console.log('rendering counter');
+
   return (
     <div>
       <h1 className="mb-2">count: {counter}</h1>
