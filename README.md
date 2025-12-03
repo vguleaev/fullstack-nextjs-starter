@@ -433,11 +433,39 @@ export default async function middleware(req: NextRequest) {
 
 ### Add TRPC
 
-Install trpc
+Install tRPC:
 
 `yarn add -E @trpc/server @trpc/client @trpc/next @trpc/react-query @tanstack/react-query zod`
 
-IN CONSTRUCTION!!
+Basic setup:
+
+1. Create a router in `src/server/trpc.ts`:
+
+```typescript
+import { initTRPC } from '@trpc/server';
+const t = initTRPC.create();
+export const appRouter = t.router({
+  greeting: t.procedure.query(() => 'Hello tRPC!'),
+});
+export type AppRouter = typeof appRouter;
+```
+
+2. Add API handler in `src/pages/api/trpc/[trpc].ts`:
+
+```typescript
+import { createNextApiHandler } from '@trpc/server/adapters/next';
+import { appRouter } from '@/server/trpc';
+export default createNextApiHandler({ router: appRouter });
+```
+
+3. Use tRPC hooks in your components:
+
+```typescript
+import { trpc } from '@/utils/trpc';
+const { data } = trpc.greeting.useQuery();
+```
+
+See tRPC docs for advanced usage: https://trpc.io/docs
 
 ##### Add Font
 
